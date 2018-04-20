@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Guitar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="69" class="key">
+      <kbd>E</kbd>
+      <span class="sound">clean-1ste</span>
+    </div>
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clean-a</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">clean-d</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">clean-g</span>
+    </div>
+    <div data-key="66" class="key">
+      <kbd>B</kbd>
+      <span class="sound">clean-b</span>
+    </div>
+    <div data-key="78" class="key">
+      <kbd>N</kbd>
+      <span class="sound">clean-e</span>
+    </div>
+    <!-- <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">finger-slide</span>
+    </div> -->
+  </div>
+
+  <audio data-key="65" src="sounds/8382__speedy__clean-a-str-pick.wav"></audio>
+  <audio data-key="66" src="sounds/8385__speedy__clean-b-str-pick.wav"></audio>
+  <audio data-key="68" src="sounds/8388__speedy__clean-d-str-pick.wav"></audio>
+  <audio data-key="78" src="sounds/8393__speedy__clean-e1st-str-pick.wav"></audio>
+  <audio data-key="70" src="sounds/8399__speedy__clean-finger-slide-delay.wav"></audio>
+  <audio data-key="71" src="sounds/8402__speedy__clean-g-str-pick.wav"></audio>
+  <audio data-key="69" src="sounds/8396__speedy__clean-e-str-pick.wav"></audio>
+  
+<script>
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if(!audio) return; // ignore null
+    audio.currentTime = 0; //rewind
+    audio.play();
+    key.classList.add('playing');
+  };
+
+  function removeTransition(e) {
+    if(e.propertyName !== 'transform') return;
+
+    this.classList.remove('playing');
+  };
+
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  window.addEventListener('keydown', playSound);
+</script>
+
+
+</body>
+</html>
